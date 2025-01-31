@@ -5,8 +5,7 @@ int *b = &a;
 char c;
 short f;
 const int **g;
-static long h(int **i, int **j)
-{
+static long h(int **i, int **j) {
   const int *k[46];
   const int **l = &k[5];
   *j = &e;
@@ -16,11 +15,10 @@ static long h(int **i, int **j)
   **i = 0;
   return f;
 }
-int main()
-{
+int main() {
   int *m = &a;
   h(&m, &m);
   c = *b;
   if (c != 3)
-    __builtin_abort ();
+    __builtin_abort();
 }

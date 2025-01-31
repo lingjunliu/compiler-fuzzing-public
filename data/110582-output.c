@@ -15,4 +15,3 @@ int main() {
 }
 
 /* { dg-final { scan-tree-dump-not "Folding predicate" "vrp2" } } */
-

@@ -9,9 +9,8 @@
 extern vector signed __int128 res_vslll;
 extern unsigned long long aull[2];
 
-void
-testVectorInt128Pack ()
-{
-  res_vslll = __builtin_pack_vector_int128 (aull[0], aull[1]); /* { dg-error "'__builtin_pack_vector_int128' requires the '-mvsx' option" } */
+void testVectorInt128Pack() {
+  res_vslll = __builtin_pack_vector_int128(
+      aull[0], aull[1]); /* { dg-error "'__builtin_pack_vector_int128' requires
+                            the '-mvsx' option" } */
 }
-

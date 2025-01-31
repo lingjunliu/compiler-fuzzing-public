@@ -7,7 +7,7 @@ int main() {
   struct a p;
   int i;
   p.b = 1;
-  
+
   if (j) {
     p.b = 0;
     i = 0;
@@ -18,13 +18,13 @@ int main() {
       i++;
     }
   }
-  
+
   while (f) {
     i = 0;
     while (i < 5) {
       i++;
     }
-    
+
     if (l) {
       while (h) {
         continue;
@@ -36,14 +36,14 @@ int main() {
         }
       }
     }
-    
+
     while (e > 0) {
       if (a) {
         p = n;
       }
       e--;
     }
-    
+
     printf("0");
     break;
   }

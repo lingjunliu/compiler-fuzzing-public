@@ -5,9 +5,7 @@
 int a, b, c, d, e;
 unsigned int f;
 
-static void
-foo (unsigned int x)
-{
+static void foo(unsigned int x) {
   unsigned int g = x < c;
   int h = f < b;
   x += h;
@@ -23,8 +21,4 @@ foo (unsigned int x)
   e = g;
 }
 
-void
-bar (unsigned int x)
-{
-  foo (x);
-}
+void bar(unsigned int x) { foo(x); }

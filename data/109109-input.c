@@ -1,1 +1,1 @@
-return (((unsigned long long) arr[ax]) << 32) | dx;
+return (((unsigned long long)arr[ax]) << 32) | dx;

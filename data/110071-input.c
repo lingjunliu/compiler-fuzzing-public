@@ -3,14 +3,13 @@
 
 /* Verify there is an early return without the prolog and shrink-wrap
    the function. */
-void bar ();
-long
-foo (long i, long cond)
-{
-  long result = i+1;
+void bar();
+long foo(long i, long cond) {
+  long result = i + 1;
   if (cond)
-    bar ();
+    bar();
   return result;
 }
 
-/* { dg-final { scan-rtl-dump-times "Performing shrink-wrapping" 1 "pro_and_epilogue" } } */
+/* { dg-final { scan-rtl-dump-times "Performing shrink-wrapping" 1
+ * "pro_and_epilogue" } } */

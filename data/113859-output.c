@@ -1,5 +1,6 @@
 /* { dg-do compile } */
-/* { dg-options "-O2 -march=armv8.2-a+dotprod -fno-vect-cost-model -fno-schedule-insns -fno-schedule-insns2" } */
+/* { dg-options "-O2 -march=armv8.2-a+dotprod -fno-vect-cost-model
+ * -fno-schedule-insns -fno-schedule-insns2" } */
 
 /*
 ** bar:
@@ -11,13 +12,11 @@
 **	str	q\2, \[x1\]
 **	ret
 */
-void
-bar (unsigned int *__restrict b, unsigned int *__restrict d)
-{
-  d[0] = __builtin_popcount (b[0]);
-  d[1] = __builtin_popcount (b[1]);
-  d[2] = __builtin_popcount (b[2]);
-  d[3] = __builtin_popcount (b[3]);
+void bar(unsigned int *__restrict b, unsigned int *__restrict d) {
+  d[0] = __builtin_popcount(b[0]);
+  d[1] = __builtin_popcount(b[1]);
+  d[2] = __builtin_popcount(b[2]);
+  d[3] = __builtin_popcount(b[3]);
 }
 
 /*
@@ -30,11 +29,9 @@ bar (unsigned int *__restrict b, unsigned int *__restrict d)
 **	str	d\2, \[x1\]
 **	ret
 */
-void
-bar1 (unsigned int *__restrict b, unsigned int *__restrict d)
-{
-  d[0] = __builtin_popcount (b[0]);
-  d[1] = __builtin_popcount (b[1]);
+void bar1(unsigned int *__restrict b, unsigned int *__restrict d) {
+  d[0] = __builtin_popcount(b[0]);
+  d[1] = __builtin_popcount(b[1]);
 }
 
 /*
@@ -48,11 +45,9 @@ bar1 (unsigned int *__restrict b, unsigned int *__restrict d)
 **	str	q\2, \[x1\]
 **	ret
 */
-void
-bar2 (unsigned long long *__restrict b, unsigned long long *__restrict d)
-{
-  d[0] = __builtin_popcountll (b[0]);
-  d[1] = __builtin_popcountll (b[1]);
+void bar2(unsigned long long *__restrict b, unsigned long long *__restrict d) {
+  d[0] = __builtin_popcountll(b[0]);
+  d[1] = __builtin_popcountll(b[1]);
 }
 
 /* { dg-final { check-function-bodies "**" "" "" } } */

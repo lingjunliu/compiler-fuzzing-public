@@ -2,8 +2,7 @@
 /* { dg-add-options vect_early_break } */
 
 int g_66, g_80_2;
-void func_1func_41(int p_43)
-{
+void func_1func_41(int p_43) {
 lbl_1434:
   g_80_2 = 0;
   for (; g_80_2 <= 7; g_80_2 += 1) {

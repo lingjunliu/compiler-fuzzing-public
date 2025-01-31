@@ -7,13 +7,11 @@
 enum E { X };
 
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
-struct __attribute__((scalar_storage_order("big-endian")))
-{
+struct __attribute__((scalar_storage_order("big-endian"))) {
   enum E e;
 } S;
 #else
-struct __attribute__((scalar_storage_order("little-endian")))
-{
+struct __attribute__((scalar_storage_order("little-endian"))) {
   enum E e;
 } S;
 #endif

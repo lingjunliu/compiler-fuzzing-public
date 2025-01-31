@@ -5,8 +5,4 @@
 typedef unsigned _BitInt(31) T;
 T a, b;
 
-void
-foo (void)
-{
-  b = (T) ((a | (T)-1) >> 1 | (a | (T)5) << 4);
-}
+void foo(void) { b = (T)((a | (T)-1) >> 1 | (a | (T)5) << 4); }

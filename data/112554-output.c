@@ -1,5 +1,6 @@
 /* { dg-do compile } */
-/* { dg-options "-march=rv64gcv -mabi=lp64d -O3 --param=riscv-autovec-preference=fixed-vlmax" } */
+/* { dg-options "-march=rv64gcv -mabi=lp64d -O3
+ * --param=riscv-autovec-preference=fixed-vlmax" } */
 
 int a;
 void b() {

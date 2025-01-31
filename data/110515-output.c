@@ -6,7 +6,9 @@ typedef __UINT64_TYPE__ u64;
 
 struct SmallDenseMap {
   static constexpr u64 EmptyKey = 0xC0FFEUL;
-  struct V { u64 v; };
+  struct V {
+    u64 v;
+  };
 
   bool contains(u64 Val) {
     V *TheSlot = nullptr;
@@ -36,7 +38,7 @@ struct SmallDenseMap {
     for (; O != E; ++O) {
       if (O->v != EmptyKey) {
         // Insert the key/value into the new table.
-        V * N = nullptr;
+        V *N = nullptr;
         LookupSlotFor(O->v, N);
         N->v = O->v;
         Size++;
@@ -49,11 +51,12 @@ struct SmallDenseMap {
     unsigned Capacity = getCapacity();
     // Make sure we always keep at least one Empty value
     if (NewSize >= Capacity) {
-      //fprintf(stderr, "GROW: size=%u capacity=%u -> ...\n", Size, Capacity);
+      // fprintf(stderr, "GROW: size=%u capacity=%u -> ...\n", Size, Capacity);
       grow();
       LookupSlotFor(Key, TheSlot);
       Capacity = getCapacity();
-      //fprintf(stderr, "GROW: ... -> size=%u capacity=%u\n", NewSize, Capacity);
+      // fprintf(stderr, "GROW: ... -> size=%u capacity=%u\n", NewSize,
+      // Capacity);
     }
 
     Size++;
@@ -61,8 +64,7 @@ struct SmallDenseMap {
     TheSlot->v = Key;
   }
 
-  bool LookupSlotFor(u64 Val,
-                       V *&FoundSlot) {
+  bool LookupSlotFor(u64 Val, V *&FoundSlot) {
     V *SlotsPtr = getSlots();
     const unsigned Capacity = getCapacity();
 
@@ -95,8 +97,8 @@ struct SmallDenseMap {
   };
 
   union {
-      V i[InlineSlots]; // Small = true
-      LargeRep o;       // Small = false
+    V i[InlineSlots]; // Small = true
+    LargeRep o;       // Small = false
   } u;
 
   explicit SmallDenseMap() : Small(true), Size(0) {
@@ -110,7 +112,8 @@ struct SmallDenseMap {
 
   void grow() {
     // assert:
-    if (!Small) __builtin_trap();
+    if (!Small)
+      __builtin_trap();
 
     // First move the inline Slots into a temporary storage.
     V TmpStorage[InlineSlots];
@@ -122,10 +125,10 @@ struct SmallDenseMap {
     V *P = u.i;
     V *E = P + InlineSlots;
     for (; P != E; ++P) {
-        if (P->v != EmptyKey) {
-            TmpEnd->v = P->v;
-            ++TmpEnd;
-        }
+      if (P->v != EmptyKey) {
+        TmpEnd->v = P->v;
+        ++TmpEnd;
+      }
     }
 
     Small = false;
@@ -135,11 +138,10 @@ struct SmallDenseMap {
 
   V *getSlots() {
     if (Small) {
-      V * inl = u.i;
+      V *inl = u.i;
       return inl;
-    }
-    else {
-      LargeRep * rep = &u.o;
+    } else {
+      LargeRep *rep = &u.o;
       return rep->Slots;
     }
   }
@@ -147,9 +149,8 @@ struct SmallDenseMap {
   unsigned getCapacity() {
     if (Small) {
       return InlineSlots;
-    }
-    else {
-      LargeRep * rep = &u.o;
+    } else {
+      LargeRep *rep = &u.o;
       return rep->Capacity;
     }
   }
@@ -158,40 +159,35 @@ struct SmallDenseMap {
 #pragma GCC optimize(0)
 
 struct P {
-    u64 f;
-    bool s;
+  u64 f;
+  bool s;
 };
 
 static u64 ws = 0;
 static P WorkList[128];
 
-__attribute__((noipa))
-static void popupateIni() {
-  for (u64 Var : (u64[]){8,7,6,5,4,3,0}) {
+__attribute__((noipa)) static void popupateIni() {
+  for (u64 Var : (u64[]){8, 7, 6, 5, 4, 3, 0}) {
     WorkList[ws++] = P{Var, false};
   }
 }
 
-__attribute__((noipa))
-static void checkCycle(u64 Var) {
-    // Detect cycles.
-    static bool seen[256];
-    if (Var >= 256 || seen[Var]) __builtin_trap();
-    seen[Var] = true;
+__attribute__((noipa)) static void checkCycle(u64 Var) {
+  // Detect cycles.
+  static bool seen[256];
+  if (Var >= 256 || seen[Var])
+    __builtin_trap();
+  seen[Var] = true;
 }
 
+__attribute__((noipa)) static void populateDeps(u64 Var) {
 
-__attribute__((noipa))
-static void populateDeps(u64 Var) {
-
-    WorkList[ws++] = P{Var, true};
-    if (Var == 8)
-        WorkList[ws++] = P{0, false};
+  WorkList[ws++] = P{Var, true};
+  if (Var == 8)
+    WorkList[ws++] = P{0, false};
 }
 
-
-__attribute__((noipa)) __attribute__((optimize(3)))
-static void bug() {
+__attribute__((noipa)) __attribute__((optimize(3))) static void bug() {
 
   // triggers growth on insert
   SmallDenseMap Visited;
@@ -217,7 +213,4 @@ static void bug() {
   }
 }
 
-__attribute__((noipa))
-int main() {
-    bug();
-}
+__attribute__((noipa)) int main() { bug(); }
