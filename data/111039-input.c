@@ -1,8 +1,7 @@
-int _setjmp ();
-void abcd ();
-void abcde ();
-void compiler_corruption_function(int flags)
-{
+int _setjmp();
+void abcd();
+void abcde();
+void compiler_corruption_function(int flags) {
   int nowait;
   int isexpand;
   abcd();

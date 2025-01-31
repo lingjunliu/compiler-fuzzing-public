@@ -2,11 +2,9 @@
 /* { dg-do compile { target bitint } } */
 /* { dg-options "-O2 -std=c23" } */
 
-void
-foo (void)
-{
+void foo(void) {
 #if __BITINT_MAXWIDTH__ >= 129
   _BitInt(129) i = 0;
-  __asm__ ("" : : "rm" (i));
+  __asm__("" : : "rm"(i));
 #endif
 }

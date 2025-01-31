@@ -33,15 +33,15 @@ void gcry_mpi_add_ui(gcry_mpi_t w, gcry_mpi_t u, unsigned v) {
   }
 }
 
-int main()
-{
-  check_vect ();
+int main() {
+  check_vect();
 
   static struct gcry_mpi sv;
-  static uint64_t vals[] = {4294967288ULL, 191ULL,        4160749568ULL, 4294963263ULL,
-                            127ULL,        4294950912ULL, 255ULL,        4294901760ULL,
-                            534781951ULL,  33546240ULL,   4294967292ULL, 4294960127ULL,
-                            4292872191ULL, 4294967295ULL, 4294443007ULL, 3ULL};
+  static uint64_t vals[] = {
+      4294967288ULL, 191ULL,        4160749568ULL, 4294963263ULL,
+      127ULL,        4294950912ULL, 255ULL,        4294901760ULL,
+      534781951ULL,  33546240ULL,   4294967292ULL, 4294960127ULL,
+      4292872191ULL, 4294967295ULL, 4294443007ULL, 3ULL};
   gcry_mpi_t v = &sv;
   v->nlimbs = 16;
   v->d = vals;

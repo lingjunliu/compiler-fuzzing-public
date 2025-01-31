@@ -1,11 +1,11 @@
 #include <stdint.h>
 
 /* { dg-do compile } */
-/* { dg-options "-march=rv64gcv -mabi=lp64d -O3 -fno-vect-cost-model --param=riscv-autovec-preference=fixed-vlmax" } */
+/* { dg-options "-march=rv64gcv -mabi=lp64d -O3 -fno-vect-cost-model
+ * --param=riscv-autovec-preference=fixed-vlmax" } */
 
-void
-f (int32_t *__restrict y, int32_t *__restrict x, int32_t *__restrict z, int32_t n)
-{
+void f(int32_t *__restrict y, int32_t *__restrict x, int32_t *__restrict z,
+       int32_t n) {
   for (int32_t i = 0; i < n; ++i)
     x[i] = y[i] + x[i];
 }

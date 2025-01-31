@@ -6,9 +6,8 @@ typedef struct {
   float im;
 } cmplx_f32_t;
 
-void test2x2_f32(const cmplx_f32_t *p_src_a,
-             const cmplx_f32_t *p_src_b,
-             cmplx_f32_t *p_dst) {
+void test2x2_f32(const cmplx_f32_t *p_src_a, const cmplx_f32_t *p_src_b,
+                 cmplx_f32_t *p_dst) {
   const float32_t *a_ptr = (const float32_t *)p_src_a;
   const float32_t *b_ptr = (const float32_t *)p_src_b;
   float32_t *out_ptr = (float32_t *)p_dst;

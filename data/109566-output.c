@@ -5,10 +5,11 @@
 /* { dg-do compile } */
 /* { dg-options "-O2 -mpowerpc64" } */
 
-void
-foo (double x)
-{
-  union { double d; unsigned i; } u;
+void foo(double x) {
+  union {
+    double d;
+    unsigned i;
+  } u;
   u.d = x;
   if (u.i & 0x7ff00000)
     return;

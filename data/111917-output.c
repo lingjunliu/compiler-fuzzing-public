@@ -9,8 +9,7 @@ long a() {
   return c;
 }
 long t1;
-static
-int d() {
+static int d() {
   if (!t1)
     return 0;
 e:

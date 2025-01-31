@@ -4,7 +4,8 @@ int main() {
   for (; a > 0; a--) {
     if (b) {
       while (b > 0) {
-        if (!d) break;
+        if (!d)
+          break;
         b--;
       }
     }

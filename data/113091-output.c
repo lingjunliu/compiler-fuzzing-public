@@ -1,10 +1,10 @@
 /* { dg-do compile } */
-/* { dg-additional-options "-O3 -fdump-tree-slp-details -ftree-slp-vectorize" } */
+/* { dg-additional-options "-O3 -fdump-tree-slp-details -ftree-slp-vectorize" }
+ */
 
 int test(unsigned array[8]);
 
-int foo(char *a, char *b)
-{
+int foo(char *a, char *b) {
   unsigned array[8];
 
   array[0] = (a[0] - b[0]);
@@ -19,4 +19,5 @@ int foo(char *a, char *b)
   return test(array);
 }
 
-/* { dg-final { scan-tree-dump-times "Basic block will be vectorized using SLP" 1 "slp2" } } */
+/* { dg-final { scan-tree-dump-times "Basic block will be vectorized using SLP"
+ * 1 "slp2" } } */

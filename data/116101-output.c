@@ -2,8 +2,7 @@
 /* { dg-options "-fgimple -O0 -fdump-tree-optimized " } */
 /* PR tree-optimization/116101 */
 
-int __GIMPLE() f(int a, int b, int c, int d, int e)
-{
+int __GIMPLE() f(int a, int b, int c, int d, int e) {
   _Bool t;
   int ff;
   int gg;
@@ -11,7 +10,7 @@ int __GIMPLE() f(int a, int b, int c, int d, int e)
   t = a == b;
   ff = t ? a : e;
   gg = t ? d : b;
-  res = ff+gg;
+  res = ff + gg;
   return res;
 }
 

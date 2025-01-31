@@ -1,13 +1,12 @@
 char *s1, *s2;
-extern int* my_alloc (int);
-extern int _setjmp ();
+extern int *my_alloc(int);
+extern int _setjmp();
 extern void bar();
-void foo(int s1len, int s2len)
-{
+void foo(int s1len, int s2len) {
   int e;
-  s1len++;  // Moved increment before setjmp
+  s1len++; // Moved increment before setjmp
   int *md = my_alloc(sizeof(int) * s1len * s2len);
-  e = _setjmp ();
+  e = _setjmp();
   {
     int i = 0;
     while (i < s1len) {

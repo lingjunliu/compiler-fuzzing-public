@@ -37,12 +37,12 @@ typedef unsigned __int128 uint128_t;
 #endif
 
 int check_overflow(void) {
-    #if __BITINT_MAXWIDTH__ >= 258
-    if (sizeof(_BitInt(258)) > sizeof(int)) {
-        _BitInt(258) a = (_BitInt(258))0xC00C598D;
-        _BitInt(258) b = 0;
-        return __builtin_sub_overflow_p(a, b, (_BitInt(258))0);
-    }
-    #endif
-    return 0;
+#if __BITINT_MAXWIDTH__ >= 258
+  if (sizeof(_BitInt(258)) > sizeof(int)) {
+    _BitInt(258) a = (_BitInt(258))0xC00C598D;
+    _BitInt(258) b = 0;
+    return __builtin_sub_overflow_p(a, b, (_BitInt(258))0);
+  }
+#endif
+  return 0;
 }

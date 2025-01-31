@@ -1,5 +1,6 @@
 /* { dg-do compile } */
-/* { dg-options "-O3 -march=rv64gcv_zvl256b -mabi=lp64d -mrvv-vector-bits=zvl" } */
+/* { dg-options "-O3 -march=rv64gcv_zvl256b -mabi=lp64d -mrvv-vector-bits=zvl" }
+ */
 
 long a;
 short b[60000];
@@ -12,7 +13,7 @@ int main() {
         a += (unsigned)b[f + e];
   }
   if (a != 0)
-    __builtin_abort ();
+    __builtin_abort();
 }
 
 /* { dg-final { scan-assembler-times "vsetivli\tzero,1" 0 } } */

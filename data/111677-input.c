@@ -9,7 +9,7 @@ typedef float dt_aligned_pixel_t[4] __attribute__((aligned(16)));
 void dt_bilateral_splat(dt_bilateral_t *b) {
   float *buf __attribute__((aligned(16)));
   long offsets[8] __attribute__((aligned(16)));
-  
+
   while (b) {
     int firstrow = 0;
     for (int j = firstrow; j > 0; j++) {
@@ -21,7 +21,7 @@ void dt_bilateral_splat(dt_bilateral_t *b) {
         }
       }
     }
-    
+
     float *dest __attribute__((aligned(16))) = 0;
     if (dest) {
       for (int j = (long)b; j > 0; j--) {

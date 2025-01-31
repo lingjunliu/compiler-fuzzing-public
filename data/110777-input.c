@@ -1,7 +1,7 @@
-void pm_message (int);
+void pm_message(int);
 int *findOrAddBackgroundInPalette_palette_pnm;
 static void findOrAddBackgroundInPalette(unsigned *paletteSizeP,
-                                    int *backgroundIndexP) {
+                                         int *backgroundIndexP) {
   if (*paletteSizeP) {
     *backgroundIndexP = (*paletteSizeP)++;
     pm_message(0);
@@ -14,7 +14,7 @@ void computeColorMap(int *backgroundIndexP) {
 }
 int main() {
   unsigned backgroundIndex = 0;
-  findOrAddBackgroundInPalette_palette_pnm = (int*)calloc(100, sizeof(int));
+  findOrAddBackgroundInPalette_palette_pnm = (int *)calloc(100, sizeof(int));
   _setjmp();
   computeColorMap(&backgroundIndex);
   free(findOrAddBackgroundInPalette_palette_pnm);

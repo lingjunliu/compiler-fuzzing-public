@@ -1,11 +1,20 @@
 typedef struct A A;
 typedef struct B B;
-struct A { char *a; long b; };
+struct A {
+  char *a;
+  long b;
+};
 enum { C, D };
-typedef struct { A *c; A *d; } E;
+typedef struct {
+  A *c;
+  A *d;
+} E;
 typedef enum { F } G;
 typedef enum { H } I;
-struct B { A *e, *f, *g, *h; char i; } j;
+struct B {
+  A *e, *f, *g, *h;
+  char i;
+} j;
 int k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, aa, ab, ac, ad, ae, af;
 int ag, ah, ai, aj, ak, al, am, an, ao, ap;
 E aq;
@@ -13,9 +22,7 @@ G ar;
 I as;
 char at;
 
-static int
-foo (char *c, long d)
-{
+static int foo(char *c, long d) {
   switch (d) {
   case 7:
     switch (c[6])
@@ -97,7 +104,8 @@ foo (char *c, long d)
                                                                   if (n)
                                                                     if (m)
                                                                     case 7:
-                                                                      switch (c[6])
+                                                                      switch (
+                                                                          c[6])
                                                                       case 'e':
                                                                         if (l)
                                                                         case 'g':
@@ -107,31 +115,26 @@ foo (char *c, long d)
   return 0;
 }
 
-void bar (void);
+void bar(void);
 
-static int
-baz (B *x)
-{
+static int baz(B *x) {
   aq.c = x->e;
   aq.d = x->f;
-  ap = foo (x->e->a, x->e->b);
+  ap = foo(x->e->a, x->e->b);
   if (x->i)
-    bar ();
+    bar();
   x->g = aq.c;
   x->h = aq.d;
   return 0;
 }
 
-void
-qux (void)
-{
+void qux(void) {
   for (; at;)
-    switch (as)
-      {
-      case H:
-	baz (&j);
-	j.f->b = 0;
-	if (ar)
-	  baz (&j);
-      }
+    switch (as) {
+    case H:
+      baz(&j);
+      j.f->b = 0;
+      if (ar)
+        baz(&j);
+    }
 }

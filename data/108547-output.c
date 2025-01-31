@@ -1,7 +1,7 @@
 /* { dg-do compile } */
 /* { dg-options "-O2 -Wuninitialized" } */
 
-int func_7_uc_10li_19 (int);
+int func_7_uc_10li_19(int);
 int li_4, li_5, us_8;
 unsigned char func_7_ptr_13, func_7_uc_14;
 void func_7_ptr_18() {

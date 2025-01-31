@@ -1,5 +1,6 @@
 /* { dg-do compile } */
-/* { dg-options "-O2 -ftree-vectorize -fallow-store-data-races -fno-tree-ch -ftree-loop-distribution" } */
+/* { dg-options "-O2 -ftree-vectorize -fallow-store-data-races -fno-tree-ch
+ * -ftree-loop-distribution" } */
 
 static int b;
 int *a, c, *d = &c;

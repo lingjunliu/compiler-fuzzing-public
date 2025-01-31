@@ -1,9 +1,8 @@
 /* { dg-do compile } */
-/* { dg-options "-march=rv64gcv -mabi=lp64d -O3 -fno-vect-cost-model --param=riscv-autovec-preference=fixed-vlmax" } */
+/* { dg-options "-march=rv64gcv -mabi=lp64d -O3 -fno-vect-cost-model
+ * --param=riscv-autovec-preference=fixed-vlmax" } */
 
-void
-f (int *__restrict y, int *__restrict x, int *__restrict z, int n)
-{
+void f(int *__restrict y, int *__restrict x, int *__restrict z, int n) {
   for (int i = 0; i < n; ++i)
     x[i] = y[i] + x[i];
 }

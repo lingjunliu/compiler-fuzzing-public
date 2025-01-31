@@ -1,14 +1,12 @@
-typedef int int32_t __attribute__((mode (__SI__)));
+typedef int int32_t __attribute__((mode(__SI__)));
 
-void bar (int32_t);
+void bar(int32_t);
 
-void
-foo ()
-{
+void foo() {
   int32_t index = 0;
   int32_t base = 0xcafe;
   int32_t mult = 0xdead;
 
-  for (index; index <= 10; index--) 
-    bar (base * mult + index * mult);
+  for (index; index <= 10; index--)
+    bar(base * mult + index * mult);
 }
