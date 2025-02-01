@@ -8,4 +8,4 @@ fi
 
 file="$1"
 
-sed -i -E 's/_BitInt\s*\(([0-9]+)\)\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*0\s*;/_BitInt\(\1\) \2;/' "$file"
+sed -i -E 's/_BitInt\s*\(([0-9]+)\)\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*[0-9]+\s*;/_BitInt\(\1\) \2;/' "$file"
