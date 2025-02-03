@@ -22,8 +22,8 @@ longVar=$(echo "$random_match1" | cut -d: -f1)
 
 sed -i -E "/long\s+$longVar\s*;/d" "$file"
 
-funcNames=$(grep -oE "void\s+[a-zA-Z_][a-zA-Z0-9_]*\s*\(\s*\)" "$file" | \
-sed -E 's/void\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(\s*\)/\1'/)
+funcNames=$(grep -oE "void\s+[a-zA-Z_][a-zA-Z0-9_]*\s*\(.*\)" "$file" | \
+sed -E 's/void\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(.*\)/\1'/)
 
 if [ -z "$funcNames" ]; then
   echo "No matching patterns found."
