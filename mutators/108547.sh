@@ -9,25 +9,29 @@ fi
 file="$1"
 SEED=$2
 
-longVar=$(grep -oE "long\s+[a-zA-Z_][a-zA-Z0-9_]*\s*;" "$file" | \
+longVars=$(grep -oE "long\s+[a-zA-Z_][a-zA-Z0-9_]*\s*;" "$file" | \
 sed -E 's/long\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*;/\1'/)
 
-if [ -z "$longVar" ]; then
+if [ -z "$longVars" ]; then
   echo "No matching patterns found."
   exit 0
 fi
 
-sed -E '/long\s+[a-zA-Z_][a-zA-Z0-9_]*\s*;/d' "$file"
+random_match1=$(echo "$longVars" | awk -v seed="$SEED" 'BEGIN {srand(seed); line=""} {if (rand() <= 1/NR) line=$0} END {print line}')
+longVar=$(echo "$random_match1" | cut -d: -f1)
 
-random_match=$(echo "$longVar" | awk -v seed="$SEED" 'BEGIN {srand(seed); line=""} {if (rand() <= 1/NR) line=$0} END {print line}')
-line=$(echo "$random_match" | cut -d: -f1)
+sed -i -E "/long\s+$longVar\s*;/d" "$file"
 
-funcName=$(grep -oE "void\s+[a-zA-Z_][a-zA-Z0-9_]*\s*\(\s*\)" "$file" | \
+funcNames=$(grep -oE "void\s+[a-zA-Z_][a-zA-Z0-9_]*\s*\(\s*\)" "$file" | \
 sed -E 's/void\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(\s*\)/\1'/)
 
-if [ -z "$funcName" ]; then
+if [ -z "$funcNames" ]; then
   echo "No matching patterns found."
   exit 0
 fi
 
-sed -i -E "s/${line}/(__INTPTR_TYPE__\)${funcName}/g" "$file"
+random_match2=$(echo "$funcNames" | awk -v seed="$SEED" 'BEGIN {srand(seed); line=""} {if (rand() <= 1/NR) line=$0} END {print line}')
+funcName=$(echo "$random_match2" | cut -d: -f1)
+
+sed -i -E "s/[^a-zA-Z0-9_]${longVar};/(__INTPTR_TYPE__\)${funcName};/g" "$file"
+sed -i -E "s/[^a-zA-Z0-9_]${longVar}[^a-zA-Z0-9_]/(__INTPTR_TYPE__\)${funcName}/g" "$file"
