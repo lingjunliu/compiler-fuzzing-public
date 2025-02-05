@@ -8,4 +8,4 @@ fi
 
 file="$1"
 
-sed -i -E '/__attribute__\s*\(\(\s*target\s*\(.*\)\)\)/d' "$file"
+sed -i -E 's/__attribute__\s*\(\(\s*target\s*\(.*\)\)\)//' "$file"
