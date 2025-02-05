@@ -21,4 +21,4 @@ fi
 temp=$(echo "$match" | cut -d',' -f1)
 var=$(echo "$match" | cut -d',' -f2)
 
-sed -i -E "s/([a-zA-Z_][a-zA-Z0-9_]*) \+= $temp;/\1 += $var;/g" "$file"
+sed -i -E "s/([^a-zA-Z0-9_])$temp([^a-zA-Z0-9_])/\1$var\2/g" "$file"
