@@ -33,5 +33,4 @@ fi
 random_match2=$(echo "$funcNames" | awk -v seed="$SEED" 'BEGIN {srand(seed); line=""} {if (rand() <= 1/NR) line=$0} END {print line}')
 funcName=$(echo "$random_match2" | cut -d: -f1)
 
-sed -i -E "s/[^a-zA-Z0-9_]${longVar};/(__INTPTR_TYPE__\)${funcName};/g" "$file"
-sed -i -E "s/[^a-zA-Z0-9_]${longVar}[^a-zA-Z0-9_]/(__INTPTR_TYPE__\)${funcName}/g" "$file"
+sed -i -E "s/([^a-zA-Z0-9_])${longVar}([^a-zA-Z0-9_])/\1(__INTPTR_TYPE__\)${funcName}\2/g" "$file"
