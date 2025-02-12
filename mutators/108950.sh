@@ -7,6 +7,7 @@ if [ $# -ne 2 ]; then
 fi
 
 file="$1"
+SEED=$2
 
 matches=$(grep -oE 'int [a-zA-Z_][a-zA-Z0-9_]* = \(int\)[a-zA-Z_][a-zA-Z0-9_]*;' "$file" | \
 sed -E 's/int ([a-zA-Z_][a-zA-Z0-9_]*) = \(int\)([a-zA-Z_][a-zA-Z0-9_]*);/\1,\2/')
