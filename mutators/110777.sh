@@ -9,6 +9,7 @@ fi
 file="$1"
 SEED=$2
 
+#Use the pattern instead of removing with .*
 sed -i -E 's/(unsigned [a-zA-Z_][a-zA-Z0-9_]*) = 0;/\1;/g' "$file"
 
 
