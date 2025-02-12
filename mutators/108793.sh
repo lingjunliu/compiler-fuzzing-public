@@ -8,7 +8,4 @@ fi
 
 file="$1"
 
-match=$(grep -noE '(for \(.*\))' "$file")
-line=$(echo "$match" | cut -d: -f1)
-
-sed -i -E "${line}s/\!=/>/" "$file"
+sed -i -E "s/for \((.*)\!=(.*)\)/for (\1>\2)/" "$file"
