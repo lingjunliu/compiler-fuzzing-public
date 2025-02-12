@@ -8,7 +8,7 @@ fi
 
 file="$1"
 
-varName=$(grep -oE 'return [a-zA-Z_][a-zA-Z0-9_]*;' "$file" | \
+varName=$(grep -noE 'return [a-zA-Z_][a-zA-Z0-9_]*;' "$file" | \
 sed -E 's/return ([a-zA-Z_][a-zA-Z0-9_]*);/\1/')
 
 if [ -z "$varName" ]; then
@@ -16,8 +16,10 @@ if [ -z "$varName" ]; then
   exit 0
 fi
 
-match=$(grep -noE "long $varName = (.*);" "$file" | \
-sed -E "s/long $varName = (.*);/\1/")
+#randomize return
+
+match=$(grep -noE "[a-zA-Z_][a-zA-Z0-9_]* $varName = (.*);" "$file" | \
+sed -E "s/[a-zA-Z_][a-zA-Z0-9_]* $varName = (.*);/\1/")
 
 if [ -z "$match" ]; then
   echo "No matching patterns found."
