@@ -27,7 +27,7 @@ fi
 line=$(echo "$match" | cut -d: -f1)
 equivalent=$(echo "$match" | cut -d: -f2)
 
-sed -i -E "${line}d" "$file"
+sed -i -E "${line}s/long $varName = (.*);//" "$file"
 
 sed -i -E "s/return ${varName};/return ${equivalent};/" "$file"
 
