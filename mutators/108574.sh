@@ -23,7 +23,7 @@ declaration=$(echo "$rand_declar_match" | cut -d: -f2)
 
 sed -i -E "${declarLine}d" "$file"
 
-gotoMatches=$(grep -noE 'L[0-9]+ : {' "$file")
+gotoMatches=$(grep -noE '^[a-zA-Z_][a-zA-Z0-9_]*\s*:' "$file")
 
 if [ -z "$gotoMatches" ]; then
   echo "No matching patterns found."
@@ -34,4 +34,4 @@ rand_goto_match=$(echo "$gotoMatches" | awk -v seed="$SEED" 'BEGIN {srand(seed);
 
 gotoLine=$(echo "$rand_goto_match" | cut -d: -f1)
 
-sed -i -E "${gotoLine}s/\{/\{\n${declaration}/" "$file"
+sed -i -E "${gotoLine}a\ ${declaration}" "$file"
