@@ -8,17 +8,19 @@ fi
 
 file="$1"
 
-match=$(grep -oE 'int [a-zA-Z_][a-zA-Z0-9_]* = \(int\)[a-zA-Z_][a-zA-Z0-9_]*;' "$file" | \
+matches=$(grep -oE 'int [a-zA-Z_][a-zA-Z0-9_]* = \(int\)[a-zA-Z_][a-zA-Z0-9_]*;' "$file" | \
 sed -E 's/int ([a-zA-Z_][a-zA-Z0-9_]*) = \(int\)([a-zA-Z_][a-zA-Z0-9_]*);/\1,\2/')
 
 sed -i -E '/int [a-zA-Z_][a-zA-Z0-9_]* = \(int\)[a-zA-Z_][a-zA-Z0-9_]*;/d' "$file"
 
-if [ -z "$match" ]; then
+if [ -z "$matches" ]; then
   echo "No matching patterns found."
   exit 1
 fi
 
-temp=$(echo "$match" | cut -d',' -f1)
-var=$(echo "$match" | cut -d',' -f2)
+random_match=$(echo "$matches" | awk -v seed="$SEED" 'BEGIN {srand(seed); line=""} {if (rand() <= 1/NR) line=$0} END {print line}')
+
+temp=$(echo "$random_match" | cut -d',' -f1)
+var=$(echo "$random_match" | cut -d',' -f2)
 
 sed -i -E "s/([^a-zA-Z0-9_])$temp([^a-zA-Z0-9_])/\1$var\2/g" "$file"
