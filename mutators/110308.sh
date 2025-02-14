@@ -18,9 +18,6 @@ if [ -z "$structNames" ]; then
   exit 0
 fi
 
-echo "$structNames"
-
 structName=$(echo "$structNames" | awk -v seed="$SEED" 'BEGIN {srand(seed); line=""} {if (rand() <= 1/NR) line=$0} END {print line}')
-echo "$structName"
 
-sed -i -E "s/${structName} [a-zA-Z_][a-zA-Z0-9_]*;/${structName}\(\);/" "$file"
+sed -i -E "s/${structName} [a-zA-Z_][a-zA-Z0-9_]*;/${structName}\(\);/g" "$file"
