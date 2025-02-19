@@ -7,6 +7,7 @@ if [ $# -ne 2 ]; then
 fi
 
 file="$1"
+SEED=$2
 
 # Find all bool declarations and save their variable names
 bools=$(grep -oE "^\s*static bool [a-zA-Z_][a-zA-Z0-9_]* = (true|false);" "$file" | \
