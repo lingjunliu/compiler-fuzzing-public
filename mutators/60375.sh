@@ -8,4 +8,4 @@ fi
 
 file="$1"
 
-sed -i -E "s/__attribute__\(\(target\(\"v([0-9.]+[a-z]?)\"\)\)\)/__attribute__\(\(target\(\"no-v\1\"\)\)\)/" "$file"
+sed -i -E "s/__attribute__\(\(target\(\"([^\"]*)\"\)\)\)/__attribute__\(\(target\(\"no-\1\"\)\)\)/" "$file"
