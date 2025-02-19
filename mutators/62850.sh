@@ -21,7 +21,7 @@ fi
 boolName=$(echo "$bools" | awk -v seed="$SEED" 'BEGIN {srand(seed); line=""} {if (rand() <= 1/NR) line=$0} END {print line}')
 
 # Find all bool declarations inside curly braces
-blockBools=$(grep -noE "\{ static bool [a-zA-Z_][a-zA-Z0-9_]* = (true|false); \}" "$file")
+blockBools=$(grep -noE "static bool [a-zA-Z_][a-zA-Z0-9_]* = (true|false);" "$file")
 if [ -z "$blockBools" ]; then
   echo "No matching patterns found."
   exit 0
@@ -32,5 +32,5 @@ blockBool=$(echo "$blockBools" | awk -v seed="$SEED" 'BEGIN {srand(seed); line="
 line=$(echo "$blockBool" | cut -d: -f1)
 
 # In the selected line, replace the variable name with the selected bool name
-sed -i -E "${line} s/\{ static bool [a-zA-Z_][a-zA-Z0-9_]* = (true|false); \}/\
-{ static bool ${boolName} = \1; \}/" "$file"
+sed -i -E "${line} s/static bool [a-zA-Z_][a-zA-Z0-9_]* = (true|false);/\
+static bool ${boolName} = \1;/" "$file"
