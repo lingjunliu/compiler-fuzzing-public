@@ -8,4 +8,4 @@ fi
 
 file="$1"
 
-sed -i -E "s/extern struct ([a-zA-Z_][a-zA-Z0-9_]*) \*const ([a-zA-Z_][a-zA-Z0-9_]*);/extern \1 \*const \2;/" "$file"
+sed -i -E "s/extern struct (.*);/extern \1;/" "$file"
