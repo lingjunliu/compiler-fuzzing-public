@@ -1,6 +1,45 @@
 /* PR tree-opt/109938 */
 
-#include "../../gcc.dg/tree-ssa/pr109938.c"
+typedef int v4si __attribute__((vector_size(16)));
+
+int t1(int a, int b, int c) { return ((a ^ c) & b) | a; }
+
+int t2(int a, int b, int c) { return ((a ^ c) | a) & (b | a); }
+
+int t3(unsigned int a, unsigned int b, unsigned int c) {
+  return ((a ^ c) & b) | a;
+}
+
+int t4(int a, int b, int c) { return ((a ^ c) & b) | a; }
+
+int t5(int a, int b, int c) { return ((a ^ c) & b) | a; }
+
+long long t6(long long a, long long b, long long c) {
+  return ((a ^ c) & b) | a;
+}
+
+int t7(int a, int b, int c) { return (b & c) | a; }
+
+int t8(int a, int b, int c) { return ((a ^ c) & b) | a; }
+
+int t9(int a, int b, int c) { return ((a ^ c) & b) | a; }
+
+unsigned int t10(unsigned int a, unsigned int b, unsigned int c) {
+  return ((a ^ c) & b) | a;
+}
+
+int t11(int a, int b, int c) { return ((a ^ c) & b) | a; }
+
+int t12(int a, int b, int c) { return ((a ^ c) & b) | a; }
+
+long long t13(long long a, long long b, long long c) {
+  return ((a ^ c) & b) | a;
+}
+
+v4si t14(v4si a, v4si b, v4si c) { return ((a ^ c) & b) | a; }
+
+v4si t15(v4si a, v4si b, v4si c) { return ((a ^ c) & b) | a; }
+
 
 int main() {
   if (t1(29789, 29477, 23942) != 30045)
