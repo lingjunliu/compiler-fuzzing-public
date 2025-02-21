@@ -3,7 +3,7 @@
 
 /* Using stderr for all output or else godbolt doesn't intermix output. */
 int main(int argc, char *argv[]) {
-    void *p = NULL;
+    char *p = NULL;
 
     fprintf(stderr, "%p (%zu)\n", p, (unsigned long)p);
 
