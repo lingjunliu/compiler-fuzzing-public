@@ -5,4 +5,4 @@ fi
 
 file="$1"
 
-sed -i -E  "1s/_T/t/" "$file"
+sed -i -E  "1s/_Thread_local/thread_local/" "$file"
