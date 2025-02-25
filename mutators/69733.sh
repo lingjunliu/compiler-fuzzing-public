@@ -6,4 +6,4 @@ fi
 
 file="$1"
 
-sed -i -e 's/single/parallel num\_threads\(1)/g' "$file"
+sed -i -E 's/single/parallel num\_threads\(1)/g' "$file"
