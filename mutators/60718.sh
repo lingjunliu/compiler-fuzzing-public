@@ -8,4 +8,4 @@ fi
 
 file="$1"
 
-sed -i -E "s/(void [a-zA-Z_][a-zA-Z0-9_]*\(.*, ... \)) __attribute__\(.*\)([^\)]*)/\1\2/" "$file"
+sed -i -E "s/__attribute__\(\(format\(.*, [0-9]+, [0-9]+\)\)\)//" "$file"
