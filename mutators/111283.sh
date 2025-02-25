@@ -8,5 +8,4 @@ fi
 
 file="$1"
 
-sed -i -e 's/= [0-9]+;/= 0;/' "$file"
-
+sed -i -E 's/int ([a-zA-Z_][a-zA-Z0-9_]*) = [0-9]+;/int \1 = 0;/' "$file"
