@@ -6,4 +6,4 @@ fi
 
 file="$1"
 
-sed -i -E  "s/int ([a-zA-Z_][a-zA-Z0-9_]*) = 0 \+ 1;/int \1 = \1 \+ 1;/g" "$file"
+sed -i -E  "s/int ([a-zA-Z_][a-zA-Z0-9_]*) =(.*) 0 (.*);/int \1 =\2 \1 \3;/" "$file"
