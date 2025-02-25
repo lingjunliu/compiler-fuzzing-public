@@ -12,4 +12,4 @@ file="$1"
 
 
 # Replace "a == 0 ? 64 : " with ""
-sed -i -E 's/return ([a-zA-Z_]) == 0 \? 64 : (__[a-zA-Z]+)\(\1\);/return \2(\1);/' "$file"
+sed -i -E 's/return ([a-zA-Z_][a-zA-Z_0-9]*) == [0-9]+ \? [0-9]+ : ([a-zA-Z_][a-zA-Z_0-9]*)\(\1\);/return \2(\1);/' "$file"
