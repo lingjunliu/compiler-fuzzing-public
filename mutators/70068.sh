@@ -10,4 +10,4 @@ fi
 
 file="$1"
 
-sed -i -E 's/_T/t/g' "$file"
+sed -i -E 's/_Thread_local/thread_local/g' "$file"
