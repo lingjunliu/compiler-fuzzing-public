@@ -8,4 +8,4 @@ fi
 
 file="$1"
 
-sed -i -E 's/struct ([a-zA-Z_][a-zA-Z0-9_]*) ([a-zA-Z_][a-zA-Z0-9_]*) = \{[0-9]+\};/struct \1 \2 = \{\};/' "$file"
+sed -i -E 's/struct ([a-zA-Z_][a-zA-Z0-9_]*) ([a-zA-Z_][a-zA-Z0-9_]*) = \{.*\};/struct \1 \2 = \{\};/' "$file"
