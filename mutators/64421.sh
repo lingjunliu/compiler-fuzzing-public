@@ -8,4 +8,4 @@ fi
 
 file="$1"
 
-sed -i -E "s/#pragma omp target map\(from : ([a-zA-Z_][a-zA-Z0-9_]*)\) num_threads\([0-9]+\)/#pragma omp target map\(from : \1\)/" "$file"
+sed -i -E "s/([^a-zA-Z0-9_])num_threads\([0-9]+\)/\1/" "$file"
