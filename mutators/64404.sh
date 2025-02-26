@@ -10,8 +10,8 @@ file="$1"
 SEED=$2
 
 # Look for typedef vint64m1_t
-typedefs=$(grep -oE "typedef vint64m1_t __attribute__\(\(riscv_rvv_vector_bits\([0-9]+\)\)\) [a-zA-Z_][a-zA-Z0-9_]*;" "$file" | \
-sed -E 's/typedef (vint64m1_t) __attribute__\(\(riscv_rvv_vector_bits\([0-9]+\)\)\) ([a-zA-Z_][a-zA-Z0-9_]*);/\1:\2/')
+typedefs=$(grep -oE "typedef [a-zA-Z_][a-zA-Z0-9_]*.* [a-zA-Z_][a-zA-Z0-9_]*;" "$file" | \
+sed -E 's/typedef ([a-zA-Z_][a-zA-Z0-9_]*).* ([a-zA-Z_][a-zA-Z0-9_]*);/\1:\2/')
 
 if [ -z "$typedefs" ]; then
   echo "No matching patterns found."
