@@ -1,0 +1,22 @@
+name: PR Check
+
+# Trigger the workflow on pull requests to the main branch
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check_mutators:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Run the mutator checks and generate a summary
+      - name: Run mutator checks
+        run: |
+          echo "# Diff Summary" >> $GITHUB_STEP_SUMMARY
+          bash .github/scripts/check_mutators.sh
+        continue-on-error: true
