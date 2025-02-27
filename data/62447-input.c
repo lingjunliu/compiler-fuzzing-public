@@ -1,5 +1,5 @@
 struct {
-    char data;
+  char data;
 } d;
 
 char x[(sizeof(d.data) == 8)];

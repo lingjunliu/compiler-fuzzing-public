@@ -4,7 +4,6 @@ int foo() {
   return 0;
 }
 
-
 int bar(int len) {
   char a[len];
 

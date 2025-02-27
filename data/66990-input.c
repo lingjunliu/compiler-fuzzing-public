@@ -7,9 +7,8 @@ const char *const p = "asdasdasd";
 const char *const q = p + 2;
 
 void top(void) {
-  clang_analyzer_dump(strlen("asdasdasd")); 
-  clang_analyzer_dump(strlen(text));        
-  clang_analyzer_dump(strlen(p));           
-  clang_analyzer_dump(
-      strlen(q)); 
+  clang_analyzer_dump(strlen("asdasdasd"));
+  clang_analyzer_dump(strlen(text));
+  clang_analyzer_dump(strlen(p));
+  clang_analyzer_dump(strlen(q));
 }
