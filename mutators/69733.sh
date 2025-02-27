@@ -1,3 +1,4 @@
+#!/bin/bash
 if [ $# -ne 2 ]; then
     echo "Usage: $0 <file> <seed>"
     exit 1
