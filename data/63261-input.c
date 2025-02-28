@@ -7,12 +7,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-
-
-void skip() {
-  
-  sleep(1);
-}
+void skip() { sleep(1); }
 
 void nest_work(omp_nest_lock_t *lck) {
   omp_set_nest_lock(lck);
@@ -21,7 +16,7 @@ void nest_work(omp_nest_lock_t *lck) {
 }
 
 int main() {
-  
+
   omp_lock_t lck;
   omp_init_lock(&lck);
 
@@ -36,7 +31,6 @@ int main() {
 
   omp_destroy_lock(&lck);
 
-  
   omp_nest_lock_t nest_lck;
   omp_init_nest_lock(&nest_lck);
 
@@ -54,11 +48,8 @@ int main() {
   return 0;
 }
 
-
-
 int32_t ompt_mutex_test_lock_kind_encountered = 0;
-_Thread_local int32_t ompt_tool_tid =
-    -1; 
+_Thread_local int32_t ompt_tool_tid = -1;
 
 static const char *mutex2string(ompt_mutex_t t) {
   switch (t) {
@@ -96,7 +87,7 @@ static const char *scope_endpoint2string(ompt_scope_endpoint_t t) {
 
 void thread_begin_cb(ompt_thread_t thread_type, ompt_data_t *thread_data) {
   assert(ompt_tool_tid == -1);
-  static atomic_int_least32_t thread_counter = 1; 
+  static atomic_int_least32_t thread_counter = 1;
   ompt_tool_tid = atomic_fetch_add(&thread_counter, 1);
   thread_data->value = ompt_tool_tid;
 }
@@ -120,8 +111,8 @@ void mutex_acquire_cb(ompt_mutex_t kind, unsigned int hint, unsigned int impl,
   printf("[%s] tid = %" PRId32 " | kind = %s | wait_id = %" PRIu64
          " | codeptr_ra = %p\n",
          __FUNCTION__, ompt_tool_tid, mutex2string(kind), wait_id, codeptr_ra);
-  if( kind == ompt_mutex_test_lock || kind == ompt_mutex_lock ||
-      kind == ompt_mutex_test_nest_lock || kind == ompt_mutex_nest_lock ) {
+  if (kind == ompt_mutex_test_lock || kind == ompt_mutex_lock ||
+      kind == ompt_mutex_test_nest_lock || kind == ompt_mutex_nest_lock) {
     ompt_mutex_test_lock_kind_encountered = 1;
   }
 }
@@ -131,8 +122,8 @@ void mutex_acquired_cb(ompt_mutex_t kind, ompt_wait_id_t wait_id,
   printf("[%s] tid = %" PRId32 " | kind = %s | wait_id = %" PRIu64
          " | codeptr_ra = %p\n",
          __FUNCTION__, ompt_tool_tid, mutex2string(kind), wait_id, codeptr_ra);
-  if( kind == ompt_mutex_test_lock || kind == ompt_mutex_lock ||
-      kind == ompt_mutex_test_nest_lock || kind == ompt_mutex_nest_lock ) {
+  if (kind == ompt_mutex_test_lock || kind == ompt_mutex_lock ||
+      kind == ompt_mutex_test_nest_lock || kind == ompt_mutex_nest_lock) {
     ompt_mutex_test_lock_kind_encountered = 1;
   }
 }
@@ -160,12 +151,12 @@ static int my_initialize_tool(ompt_function_lookup_t lookup,
   set_callback(ompt_callback_mutex_released,
                (ompt_callback_t)&mutex_released_cb);
 
-  return 1; 
+  return 1;
 }
 
 static void my_finalize_tool(ompt_data_t *tool_data) {
   printf("[%s] tid = %" PRId32 "\n", __FUNCTION__, ompt_tool_tid);
-  assert( ompt_mutex_test_lock_kind_encountered == 1 );
+  assert(ompt_mutex_test_lock_kind_encountered == 1);
 }
 
 ompt_start_tool_result_t *ompt_start_tool(unsigned int omp_version,

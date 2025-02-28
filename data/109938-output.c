@@ -40,7 +40,6 @@ v4si t14(v4si a, v4si b, v4si c) { return ((a ^ c) & b) | a; }
 
 v4si t15(v4si a, v4si b, v4si c) { return ((a ^ c) & b) | a; }
 
-
 int main() {
   if (t1(29789, 29477, 23942) != 30045)
     __builtin_abort();
