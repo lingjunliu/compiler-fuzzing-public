@@ -3,8 +3,7 @@ name: PR Check
 # Trigger the workflow on pull requests to the main branch
 on:
   pull_request:
-    branches:
-      - main
+    types: [opened, synchronize, reopened]
 
 jobs:
   check_mutators:
@@ -13,6 +12,8 @@ jobs:
       # Checkout the repository code
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
 
       # Run the mutator checks and generate a summary
       - name: Run mutator checks
