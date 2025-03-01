@@ -9,4 +9,4 @@ fi
 file="$1"
 
 # Use sed to remove __attribute__ from function declarations
-sed -i -E '/(.*).*__attribute__(([^)]*)).*;/d' "$file"
+sed -i -E '/\(.*\).*__attribute__\(\(.*\)\).*;/d' "$file"
