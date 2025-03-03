@@ -10,8 +10,8 @@ file="$1"
 SEED=$2
 
 # Look for the main method and save the third parameter's name
-mainMethod=$(grep -noE "int main\(int [a-zA-Z_][a-zA-Z0-9_]*, char \**[a-zA-Z_][a-zA-Z0-9_]*, char \*\*[a-zA-Z_][a-zA-Z0-9_]*\) \{" "$file" | \
-sed -E "s/int main\(int [a-zA-Z_][a-zA-Z0-9_]*, char \**[a-zA-Z_][a-zA-Z0-9_]*, char \*\*([a-zA-Z_][a-zA-Z0-9_]*)\) \{/\1/") 
+mainMethod=$(grep -noE "int main\(.* char \*\*[a-zA-Z_][a-zA-Z0-9_]*\) \{" "$file" | \
+sed -E "s/int main\(.* char \*\*([a-zA-Z_][a-zA-Z0-9_]*)\) \{/\1/") 
 
 if [ -z "$mainMethod" ]; then
   echo "No matching patterns found."
