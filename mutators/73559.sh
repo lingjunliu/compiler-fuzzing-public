@@ -9,4 +9,4 @@ fi
 file="$1"
 SEED=$2
 
-sed -i -E "s/(extern void [a-zA-Z_][a-zA-Z0-9_]*\(.*)void \*([a-zA-Z_][a-zA-Z0-9_]*)([^a-zA-Z0-9_].*\);)/\1std::ostream \&\2\3/" "$file"
+sed -i -E "s/void \*([a-zA-Z_][a-zA-Z0-9_]*)/std::ostream \&\1/" "$file"
