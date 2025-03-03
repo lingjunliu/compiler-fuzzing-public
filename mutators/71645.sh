@@ -23,7 +23,7 @@ line=$(echo "$random_match" | cut -d: -f1)
 envp=$(echo "$random_match" | cut -d: -f2)
 
 # Remove the parameters in the main method
-sed -i -E "${line} s/int main\(int [a-zA-Z_][a-zA-Z0-9_]*, char \**[a-zA-Z_][a-zA-Z0-9_]*, char \*\*[a-zA-Z_][a-zA-Z0-9_]*\) \{/int main\(\) \{/" "$file"
+sed -i -E "${line} s/int main\(.* char \*\*[a-zA-Z_][a-zA-Z0-9_]*\) \{/int main\(\) \{/" "$file"
 
 # Add extern char **environ; in the first line
 sed -i -E '1 i\extern char \*\*environ;' "$file"
