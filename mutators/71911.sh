@@ -9,4 +9,4 @@ fi
 file="$1"
 SEED=$2
 
-sed -i -E s/"__builtin_classify_type\(typeof\(([a-zA-Z_][a-zA-Z0-9_]*)\)\)/__builtin_classify_type\(\1\)/" "$file"
+sed -i -E "s/typeof\(([^\)]*)\)/\1/" "$file"
