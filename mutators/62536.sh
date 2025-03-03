@@ -33,7 +33,6 @@ if [ -z "$variables1" ]; then
   echo "No matching patterns found."
   exit 0
 fi
-echo "$variables1"
 
 # Pick a random line and save its line number and the variable it is equal to 
 varaible1=$(echo "$variables1" | awk -v seed="$SEED" 'BEGIN {srand(seed); line=""} {if (rand() <= 1/NR) line=$0} END {print line}')
@@ -52,7 +51,6 @@ if [ -z "$variables2" ]; then
   echo "No matching patterns found."
   exit 0
 fi
-echo "$variables2"
 
 # Pick a random declaration and save its line number and the variable it is equal to
 varaible2=$(echo "$variables2" | awk -v seed="$SEED" 'BEGIN {srand(seed); line=""} {if (rand() <= 1/NR) line=$0} END {print line}')
