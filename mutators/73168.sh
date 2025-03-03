@@ -10,7 +10,7 @@ file="$1"
 SEED=$2
 
 # Read in the entire struct declaration and save it as one line
-structWhole=$(grep -zoE "struct [a-zA-Z_][a-zA-Z0-9_]* \{.*\};" "$file" | \
+structWhole=$(grep -zoE "struct [a-zA-Z_][a-zA-Z0-9_]* \{[^}]*\};" "$file" | \
 tr '\0' '\n' | tr -d '\n') 
 
 if [ -z "$structWhole" ]; then
@@ -33,4 +33,4 @@ fi
 intVar=$(echo "$intVars" | awk -v seed="$SEED" 'BEGIN {srand(seed); line=""} {if (rand() <= 1/NR) line=$0} END {print line}')
 
 # Remove array size and add __attribute__((__counted_by__(intVar)));
-sed -i -E "s/struct ([a-zA-Z_][a-zA-Z0-9_]*) \*([a-zA-Z_][a-zA-Z0-9_]*)\[[0-9]+\];/struct \1 \*\2\[\] __attribute__\(\(__counted_by__\(${intVar}\)\)\);/" "$file"
+sed -i -E "s/([a-zA-Z_][a-zA-Z0-9_]*) \*([a-zA-Z_][a-zA-Z0-9_]*)\[[0-9]+\];/\1 \*\2\[\] __attribute__\(\(__counted_by__\(${intVar}\)\)\);/" "$file"
