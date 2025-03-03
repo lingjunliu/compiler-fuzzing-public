@@ -8,4 +8,4 @@ fi
 
 file="$1"
 
-sed -i -E "s/([a-zA-Z_][a-zA-Z0-9_]*) ([a-zA-Z_][a-zA-Z0-9_]*)(\[[0-9]+ (\* [0-9]+)?\]);/\1 \2\3 __attribute__\(\(loader_uninitialized\)\);/" "$file"
+sed -i -E "s/([a-zA-Z_][a-zA-Z0-9_]* [a-zA-Z_][a-zA-Z0-9_]*\[.*\]);/\1 __attribute__\(\(loader_uninitialized\)\);/" "$file"
