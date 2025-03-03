@@ -7,6 +7,7 @@ if [ $# -ne 2 ]; then
 fi
 
 file="$1"
+SEED=$2
 
 # Read in the entire struct declaration and save it as one line
 structWhole=$(grep -zoE "struct [a-zA-Z_][a-zA-Z0-9_]* \{.*\};" "$file" | \
