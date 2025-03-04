@@ -6,4 +6,4 @@ fi
 
 file="$1"
 
-sed -i -E "s/&/bitand/g" "$file"
+sed -i -E "s/([^\&])&([^\&])/\1bitand\2/g" "$file"
