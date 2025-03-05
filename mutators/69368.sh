@@ -9,8 +9,8 @@ fi
 file="$1"
 SEED=$2
 
-intVars=$(grep -oE "int ([a-zA-Z_][a-zA-Z0-9_]*) = [0-9];" "$file" | \
-sed -E "s/int ([a-zA-Z_][a-zA-Z0-9_]*) = [0-9];/\1/") 
+intVars=$(grep -oE "int ([a-zA-Z_][a-zA-Z0-9_]*)" "$file" | \
+sed -E "s/int ([a-zA-Z_][a-zA-Z0-9_]*)/\1/") 
 
 if [ -z "$intVars" ]; then
   echo "No matching patterns found."
