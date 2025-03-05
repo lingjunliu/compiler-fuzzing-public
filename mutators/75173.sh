@@ -17,9 +17,10 @@ if [ -z "$countBys2" ]; then
   exit 0
 fi
 
-random_match2=$(echo "$countBys2" | awk -v seed="$SEED" 'BEGIN {srand(seed); line=""} {if (rand() <= 1/NR) line=$0} END {print line}')
+# random_match2=$(echo "$countBys2" | awk -v seed="$SEED" 'BEGIN {srand(seed); line=""} {if (rand() <= 1/NR) line=$0} END {print line}')
+firstElement=$(echo "$countBys2" | head -n 1)
 
-line2=$(echo "$random_match2" | cut -d: -f1)
+line2=$(echo "$firstElement" | cut -d: -f1)
 
 sed -i -E "$line2 s/#define __counted_by\(([a-zA-Z_][a-zA-Z0-9_]*)\)//" "$file"
 
