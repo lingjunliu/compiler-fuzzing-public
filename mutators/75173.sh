@@ -21,8 +21,6 @@ random_match2=$(echo "$countBys2" | awk -v seed="$SEED" 'BEGIN {srand(seed); lin
 
 line2=$(echo "$random_match2" | cut -d: -f1)
 
-echo "$line2"
-
 sed -i -E "$line2 s/#define __counted_by\(([a-zA-Z_][a-zA-Z0-9_]*)\)//" "$file"
 
 
@@ -37,7 +35,5 @@ fi
 random_match1=$(echo "$countBys" | awk -v seed="$SEED" 'BEGIN {srand(seed); line=""} {if (rand() <= 1/NR) line=$0} END {print line}')
 
 line1=$(echo "$random_match1" | cut -d: -f1)
-
-echo "$line1"
 
 sed -i -E "$line1 s/#define __counted_by\(([a-zA-Z_][a-zA-Z0-9_]*)\)/#define __counted_by\(\1\) __attribute__\(\(__counted_by__\(\1\)\)\)/" "$file"
