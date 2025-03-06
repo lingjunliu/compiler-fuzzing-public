@@ -12,4 +12,4 @@ file="$1"
 
 
 # Replace "struct d : c {};" with "struct d : virtual c {};"
-sed -i -E 's/struct d : c \{\};/struct d : virtual c \{\};/g' "$file"
+sed -i -E 's/struct ([a-zA-Z_][a-zA-Z0-9_]*) : ([a-zA-Z_][a-zA-Z0-9_]*)/struct \1 : virtual \2/g' "$file"
