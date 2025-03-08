@@ -9,9 +9,9 @@ fi
 file="$1"
 SEED=$2
 
-# Save the name of the second variable in main method header
-mainMethod=$(grep -oE "int main\(int [a-zA-Z_][a-zA-Z0-9_]*, char \*\*[a-zA-Z_][a-zA-Z0-9_]*\) \{" "$file" | \
-sed -E "s/int main\(int [a-zA-Z_][a-zA-Z0-9_]*, char \*\*([a-zA-Z_][a-zA-Z0-9_]*)\) \{/\1/") 
+# Save the name of the first star parameter
+mainMethod=$(grep -oE "int main\(.*\*\*[a-zA-Z_][a-zA-Z0-9_]*.*\) \{" "$file" | \
+sed -E "s/int main\(.*\*\*([a-zA-Z_][a-zA-Z0-9_]*).*\) \{/\1/") 
 
 if [ -z "$mainMethod" ]; then
   echo "No matching patterns found."
