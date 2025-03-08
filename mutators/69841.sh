@@ -10,7 +10,7 @@ file="$1"
 SEED=$2
 
 # A method to add likely
-ifs1=$(grep -noE "if \([a-zA-Z_][a-zA-Z0-9_]*->[a-zA-Z_][a-zA-Z0-9_]*.*\)$" "$file")
+ifs1=$(grep -noE "if \(.*\)$" "$file")
 
 if [ -z "$ifs1" ]; then
   echo "No matching patterns found."
@@ -25,7 +25,7 @@ sed -i -E "$line1 s/(if \(.*\))/\1 \[\[likely\]\]/" "$file"
 
 
 # A method to add unlikely
-ifs2=$(grep -noE "if \([a-zA-Z_][a-zA-Z0-9_]*->[a-zA-Z_][a-zA-Z0-9_]*.*\)$" "$file")
+ifs2=$(grep -noE "if \(.*\)$" "$file")
 
 if [ -z "$ifs2" ]; then
   echo "No matching patterns found."
