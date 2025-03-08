@@ -10,7 +10,7 @@ file="$1"
 SEED=$2
 
 # A method to add gnu
-methods1=$(grep -noE "[a-zA-Z_][a-zA-Z0-9_]* [a-zA-Z_][a-zA-Z0-9_]*\([a-zA-Z_][a-zA-Z0-9_]*\) __attribute__\(\([a-zA-Z_][a-zA-Z0-9_]*\)\) \{[^}]*\}" "$file")
+methods1=$(grep -noE "__attribute__\(\(no_stack_protector\)\)" "$file")
 
 if [ -z "$methods1" ]; then
   echo "No matching patterns found."
@@ -21,11 +21,11 @@ method1=$(echo "$methods1" | awk -v seed="$SEED" 'BEGIN {srand(seed); line=""} {
 
 line1=$(echo "$method1" | cut -d: -f1)
 
-sed -i -E "$line1 s/([a-zA-Z_][a-zA-Z0-9_]*) ([a-zA-Z_][a-zA-Z0-9_]*)\(([a-zA-Z_][a-zA-Z0-9_]*)\) __attribute__\(\(([a-zA-Z_][a-zA-Z0-9_]*)\)\) \{([^}]*)\}/\[\[gnu::\4\]\] \1 \2\(\3\) \{\5\}/" "$file"
+sed -i -E "$line1 s/(.*) __attribute__\(\(no_stack_protector\)\) (.*)/\[\[gnu::no_stack_protector\]\] \1 \2/" "$file"
 
 
 # A method to add clang
-methods2=$(grep -noE "[a-zA-Z_][a-zA-Z0-9_]* [a-zA-Z_][a-zA-Z0-9_]*\([a-zA-Z_][a-zA-Z0-9_]*\) __attribute__\(\([a-zA-Z_][a-zA-Z0-9_]*\)\) \{[^}]*\}" "$file")
+methods2=$(grep -noE "__attribute__\(\(no_stack_protector\)\)" "$file")
 
 if [ -z "$methods2" ]; then
   echo "No matching patterns found."
@@ -36,4 +36,5 @@ method2=$(echo "$methods2" | awk -v seed="$SEED" 'BEGIN {srand(seed); line=""} {
 
 line2=$(echo "$method2" | cut -d: -f1)
 
-sed -i -E "$line2 s/([a-zA-Z_][a-zA-Z0-9_]*) ([a-zA-Z_][a-zA-Z0-9_]*)\(([a-zA-Z_][a-zA-Z0-9_]*)\) __attribute__\(\(([a-zA-Z_][a-zA-Z0-9_]*)\)\) \{([^}]*)\}/\[\[clang::\4\]\] \1 \2\(\3\) \{\5\}/" "$file"
+sed -i -E "$line2 s/(.*) __attribute__\(\(no_stack_protector\)\) (.*)/\[\[clang::no_stack_protector\]\] \1 \2/" "$file"
+
