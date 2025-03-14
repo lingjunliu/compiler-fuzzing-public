@@ -11,6 +11,6 @@ fi
 file="$1"
 
 
-# Replace "10" with "0"
-sed -i -E 's/\b10\b/0/g' "$file"
-
+# Find 'strtol(..., ..., 10)' and replace the last argument with 0
+# \10 (\1 refers to everything inside the first capture group (...), the 0 at the end replaces 10)
+sed -i -E 's/(strtol\("[^"]+", *&[a-zA-Z_][a-zA-Z0-9_]*, *)10/\10/' "$file"
