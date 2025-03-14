@@ -8,5 +8,5 @@ fi
 
 file="$1"
 
-# Replaced 2 with ""
-sed -i -E 's/\[2\]/\[\]/g' "$file"
+# Replaced any fixed array size with an empty bracket
+sed -i -E 's/\[[0-9]+\]/\[\]/g' "$file"
