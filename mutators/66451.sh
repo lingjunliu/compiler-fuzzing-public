@@ -12,4 +12,4 @@ file="$1"
 
 
 # Replace "char *p = NULL;" with "void *p = NULL;"
-sed -i -E 's/char \*/void \*/g' "$file"
+sed -i -E 's/^ *char \*/void \*/g' "$file"
