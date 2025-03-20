@@ -26,6 +26,8 @@ name=$(echo "$rand_match" | cut -d: -f2)
 # In the selected line, replace it with an array declaration
 sed -i -E "${line} s/([a-zA-Z_][a-zA-Z0-9_]*) \*([a-zA-Z_][a-zA-Z0-9_]*) = malloc\(([0-9]+) \* sizeof\([a-zA-Z_][a-zA-Z0-9_]*\)\);/\1 \2\[\3\];/" "$file"
 
+# Delete the free statement
+sed -i -E "s/free\($name\);//" "$file"
 
 # Find the cases where the variable is called
 matches2=$(grep -noE "$name" "$file")
@@ -41,5 +43,3 @@ line2=$(echo "$rand_match2" | cut -d: -f1)
 
 sed -i -E "${line2} s/$name/\&$name\[0\]/" "$file"
 
-# Delete the free statement
-sed -i -E "s/free\($name\);//" "$file"
