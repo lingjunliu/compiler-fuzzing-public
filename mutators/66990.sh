@@ -11,10 +11,6 @@ fi
 file="$1"
 
 # Do p first
-sed -i -E 's/const char \*const (p) =/const char *\1 =/g' "$file"
+sed -i -E 's/const char \*const/const char */g' "$file"
 
-# Then q
-sed -i -E 's/const char \*const (q) =/const char *\1 =/g' "$file"
 
-# Add a line
-sed -i -E 's/(clang_analyzer_dump\(strlen\(q\)\));/clang_analyzer_dump(\n    strlen(q)); /g' "$file"
