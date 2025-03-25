@@ -9,46 +9,34 @@ fi
 file="$1"
 SEED=$2
 
-# Look for typedef type name
-matches1=$(grep -oE 'typedef int [a-zA-Z_][a-zA-Z0-9_]* __attribute__\(\(ext_vector_type\([0-9]+\)\)\);' "$file" | \
-sed -E 's/typedef int ([a-zA-Z_][a-zA-Z0-9_]*) __attribute__\(\(ext_vector_type\([0-9]+\)\)\);/\1/')
-# If no matches are found, exit
-if [ -z "$matches1" ]; then
-#   echo "No matching patterns found."
-  exit 1
-fi
-
-# randomly pick a typedef type name
-typedefName=$(echo "$matches1" | awk -v seed="$SEED" 'BEGIN {srand(seed); line=""} {if (rand() <= 1/NR) line=$0} END {print line}')
-
-
 # function header containing the type
-matches2=$(grep -oE "void [a-zA-Z_][a-zA-Z0-9_]*\(.*$typedefName [a-zA-Z_][a-zA-Z0-9_]*.*\)" "$file")
+matches=$(grep -noE "void [a-zA-Z_][a-zA-Z0-9_]*\(int [a-zA-Z_][a-zA-Z0-9_]*, double [a-zA-Z_][a-zA-Z0-9_]*, int2 [a-zA-Z_][a-zA-Z0-9_]*\)" "$file" | \
+sed -E "s/void [a-zA-Z_][a-zA-Z0-9_]*\(int ([a-zA-Z_][a-zA-Z0-9_]*), double ([a-zA-Z_][a-zA-Z0-9_]*), int2 ([a-zA-Z_][a-zA-Z0-9_]*)\)/\1:\2:\3/")
 # If no matches are found, exit
-if [ -z "$matches2" ]; then
+if [ -z "$matches" ]; then
 #   echo "No matching patterns found."
   exit 1
 fi
+
 
 # randomly pick a header
-header=$(echo "$matches2" | awk -v seed="$SEED" 'BEGIN {srand(seed); line=""} {if (rand() <= 1/NR) line=$0} END {print line}')
+params=$(echo "$matches" | awk -v seed="$SEED" 'BEGIN {srand(seed); line=""} {if (rand() <= 1/NR) line=$0} END {print line}')
+
+line=$(echo "$params" | cut -d: -f1)
+int=$(echo "$params" | cut -d: -f2)
+double=$(echo "$params" | cut -d: -f3)
+int2=$(echo "$params" | cut -d: -f4)
 
 
-# Get all int parameter names inside the header
-matches3=$(echo "$header" | grep -oE "int [a-zA-Z_][a-zA-Z0-9_]*" | \
-sed -E 's/int ([a-zA-Z_][a-zA-Z0-9_]*)/\1/')
-# If no matches are found, exit
-if [ -z "$matches2" ]; then
-#   echo "No matching patterns found."
-  exit 1
-fi
+sed -i -E "s/__builtin_popcountg\($int\);//" "$file"
 
-# Randomly pick a parameter
-intName=$(echo "$matches3" | awk -v seed="$SEED" 'BEGIN {srand(seed); line=""} {if (rand() <= 1/NR) line=$0} END {print line}')
+sed -i -E "${line} a\\
+__builtin_popcountg\($int2\);" "$file"
+sed -i -E "${line} a\\
+__builtin_popcountg\($double\);" "$file"
+sed -i -E "${line} a\\
+__builtin_popcountg\($int, $int\);" "$file"
+sed -i -E "${line} a\\
+__builtin_popcountg\(\);" "$file"
 
-# Save the typedef variable name
-varName=$(echo "$header" | grep -oE "$typedefName [a-zA-Z_][a-zA-Z0-9_]*" | \
-sed -E "s/$typedefName ([a-zA-Z_][a-zA-Z0-9_]*)/\1/")
 
-# Replace int variable with the typedef variable
-sed -i -E "s/__builtin_popcountg\($intName\);/__builtin_popcountg\($varName\);/" "$file"
