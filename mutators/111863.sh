@@ -25,6 +25,6 @@ a=$(echo "$rand_match" | cut -d: -f3)
 
 sed -i -E "$line s/[a-zA-Z_][a-zA-Z0-9_]* [a-zA-Z_][a-zA-Z0-9_]* = ([a-zA-Z_][a-zA-Z0-9_]*) \& (.*);/\1 \&= \2;/" "$file"
 
-sed -i -E "s/$tmp/$a/" "$file"
+sed -i -E "s/$tmp/$a/g" "$file"
 
 sed -i -E "s/return \((.*)\);/return \1;/" "$file"
