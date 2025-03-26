@@ -38,4 +38,4 @@ sed -i -E "$line s/struct $structName \{//" "$file"
 sed -i -E "$line2 s/.*//" "$file"
 sed -i -E "$line3 s/\};//" "$file"
 
-sed -i -E "s/([^a-zA-Z0-9_])$structName([^a-zA-Z0-9_])/\1$structContents\2/" "$file"
+sed -i -E "s/struct $structName([^a-zA-Z0-9_])/struct $structContents\1/" "$file"
