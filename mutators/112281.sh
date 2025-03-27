@@ -9,14 +9,5 @@ fi
 file="$1"
 SEED=$2
 
-# Check that a volatile struct exists
-structWhole=$(grep -zoE "struct \{.*\} volatile .*;" "$file" | \
-tr '\0' '\n' | tr -d '\n') 
-
-if [ -z "$structWhole" ]; then
-  echo "No matching patterns found."
-  exit 0
-fi
-
 # Remove volatile from that struct
-sed -i -E "s/\} volatile (.*);/\} \1;/" "$file"
+sed -i -E "s/^\s*\} volatile (.*);/\} \1;/" "$file"
