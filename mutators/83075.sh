@@ -9,4 +9,4 @@ fi
 file="$1"
 SEED=$2
 
-sed -i -E "s/__builtin_clz[a-zA-Z0-9_]*\(([a-zA-Z_][a-zA-Z0-9_]*)\)/__builtin_clzg(\1)/g" "$file"
+sed -i -E "s/__builtin_clz[l]?[l]?\(([a-zA-Z_][a-zA-Z0-9_]*)\)/__builtin_clzg(\1)/g" "$file"
