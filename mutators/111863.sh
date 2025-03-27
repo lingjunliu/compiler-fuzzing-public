@@ -9,8 +9,8 @@ fi
 file="$1"
 SEED=$2
 
-matches=$(grep -noE '[a-zA-Z_][a-zA-Z0-9_]* = [a-zA-Z_][a-zA-Z0-9_]* \& .*;' "$file" | \
-sed -E "s/([a-zA-Z_][a-zA-Z0-9_]*) = ([a-zA-Z_][a-zA-Z0-9_]*) \& .*;/\1:\2/")
+matches=$(grep -noE 'int [a-zA-Z_][a-zA-Z0-9_]* = [a-zA-Z_][a-zA-Z0-9_]* \& .*;' "$file" | \
+sed -E "s/int ([a-zA-Z_][a-zA-Z0-9_]*) = ([a-zA-Z_][a-zA-Z0-9_]*) \& .*;/\1:\2/")
 
 if [ -z "$matches" ]; then
   echo "No matching patterns found."
@@ -23,7 +23,7 @@ line=$(echo "$rand_match" | cut -d: -f1)
 tmp=$(echo "$rand_match" | cut -d: -f2)
 a=$(echo "$rand_match" | cut -d: -f3)
 
-sed -i -E "$line s/[a-zA-Z_][a-zA-Z0-9_]* [a-zA-Z_][a-zA-Z0-9_]* = ([a-zA-Z_][a-zA-Z0-9_]*) \& (.*);/\1 \&= \2;/" "$file"
+sed -i -E "$line s/int [a-zA-Z_][a-zA-Z0-9_]* = ([a-zA-Z_][a-zA-Z0-9_]*) \& (.*);/\1 \&= \2;/" "$file"
 
 sed -i -E "s/$tmp/$a/g" "$file"
 
