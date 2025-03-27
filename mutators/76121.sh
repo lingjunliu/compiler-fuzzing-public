@@ -10,7 +10,7 @@ file="$1"
 SEED=$2
 
 # Read in the entire if statement
-ifWhole=$(grep -zoE "if \([a-zA-Z_][a-zA-Z0-9_]*\) \{[^}]*__kmpc_fork_call\([a-zA-Z_][a-zA-Z0-9_]*, [0-9]+, [a-zA-Z_][a-zA-Z0-9_]*, [a-zA-Z_][a-zA-Z0-9_]*\);[^}]*\} else \{[^}]*\}" "$file" | \
+ifWhole=$(grep -zoE "if \([a-zA-Z_][a-zA-Z0-9_]*\) \{[^}]*__kmpc_fork_call\(.*, .*, .*, .*\);[^}]*\} else \{[^}]*\}" "$file" | \
 tr '\0' '\n' | tr -d '\n') 
 
 if [ -z "$ifWhole" ]; then
@@ -25,7 +25,7 @@ cond=$(echo "$ifStatement" | grep -oE "if \([a-zA-Z_][a-zA-Z0-9_]*\) \{" | \
 sed -E "s/if \(([a-zA-Z_][a-zA-Z0-9_]*)\) \{/\1/")
 
 # Add if and cond to kmpc_fork_call and delete the next 3 lines
-sed -i -E "/__kmpc_fork_call(\([a-zA-Z_][a-zA-Z0-9_]*, [0-9]+, [a-zA-Z_][a-zA-Z0-9_]*,) ([a-zA-Z_][a-zA-Z0-9_]*\);)/{
+sed -i -E "/__kmpc_fork_call(\(.*, .*, .*, .*\);)/{
   s/__kmpc_fork_call(\([a-zA-Z_][a-zA-Z0-9_]*, [0-9]+, [a-zA-Z_][a-zA-Z0-9_]*,) ([a-zA-Z_][a-zA-Z0-9_]*\);)/__kmpc_fork_call_if\1 $cond, \2/
   p
   N
