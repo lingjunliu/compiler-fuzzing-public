@@ -6,4 +6,4 @@ fi
 
 file="$1"
 
-sed -E -i 's/(A\(int\))/[[gnu::pure]] \1/' "$file"
+sed -E -i 's/^([a-zA-Z_][a-zA-Z0-9_]*\([a-zA-Z_][a-zA-Z0-9_]*\))/[[gnu::pure]] \1/' "$file"
