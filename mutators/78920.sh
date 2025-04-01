@@ -8,4 +8,4 @@ fi
 
 file="$1"
 
-sed -i -E 's/inline int (ISN)\(int ([a-zA-Z_][a-zA-Z0-9_]*)\) \{ return (.*); \}/#define \1(\2) (\3)/' "$file"
+sed -i -E 's/inline [a-zA-Z_][a-zA-Z0-9_]* ([a-zA-Z_][a-zA-Z0-9_]*)\([a-zA-Z_][a-zA-Z0-9_]* ([a-zA-Z_][a-zA-Z0-9_]*)\) \{ return (.*); \}/#define \1(\2) (\3)/' "$file"
