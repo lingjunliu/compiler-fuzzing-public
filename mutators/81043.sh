@@ -9,4 +9,4 @@ fi
 file="$1"
 
 # Remove the target_clones attribute and break it into separate target_version attributes
-sed -E -i 's/__attribute__\(\(target_clones\("([a-zA-Z0-9_]+)", "([a-zA-Z0-9_]+)", "([a-zA-Z0-9_]+)"\)\)\)/__attribute__((target_version("\1")))\n__attribute__((target_version("\2")))\n__attribute__((target_version("\3")))/' "$file"
+sed -E -i 's/__attribute__\(\(target_clones\("([a-zA-Z0-9_]+)", "([a-zA-Z0-9_]+)", "([a-zA-Z0-9_]+)"\)\)\)(.*;)/__attribute__((target_version("\1")))\4\n__attribute__((target_version("\2")))\4\n__attribute__((target_version("\3")))\4/' "$file"
