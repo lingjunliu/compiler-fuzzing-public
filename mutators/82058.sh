@@ -10,8 +10,8 @@ file="$1"
 SEED=$2
 
 # function header containing the type
-matches=$(grep -noE "void [a-zA-Z_][a-zA-Z0-9_]*\(int [a-zA-Z_][a-zA-Z0-9_]*, double [a-zA-Z_][a-zA-Z0-9_]*, int2 [a-zA-Z_][a-zA-Z0-9_]*\)" "$file" | \
-sed -E "s/void [a-zA-Z_][a-zA-Z0-9_]*\(int ([a-zA-Z_][a-zA-Z0-9_]*), double ([a-zA-Z_][a-zA-Z0-9_]*), int2 ([a-zA-Z_][a-zA-Z0-9_]*)\)/\1:\2:\3/")
+matches=$(grep -noE "[a-zA-Z_][a-zA-Z0-9_]*\([a-zA-Z_][a-zA-Z0-9_]* [a-zA-Z_][a-zA-Z0-9_]*, [a-zA-Z_][a-zA-Z0-9_]* [a-zA-Z_][a-zA-Z0-9_]*, [a-zA-Z_][a-zA-Z0-9_]* [a-zA-Z_][a-zA-Z0-9_]*\) \{" "$file" | \
+sed -E "s/[a-zA-Z_][a-zA-Z0-9_]*\([a-zA-Z_][a-zA-Z0-9_]* ([a-zA-Z_][a-zA-Z0-9_]*), [a-zA-Z_][a-zA-Z0-9_]* ([a-zA-Z_][a-zA-Z0-9_]*), [a-zA-Z_][a-zA-Z0-9_]* ([a-zA-Z_][a-zA-Z0-9_]*)\) \{/\1:\2:\3/")
 # If no matches are found, exit
 if [ -z "$matches" ]; then
 #   echo "No matching patterns found."
