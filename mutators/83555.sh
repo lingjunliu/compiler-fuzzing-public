@@ -33,3 +33,29 @@ mainLine=$(echo "$main" | cut -d: -f1)
 # Place nested function inside main
 sed -i -E "${mainLine} a\\
 $nestedFunc" "$file"
+
+
+# Find a #include statement
+includes=$(grep -noE '#include .*' "$file")
+if [ -z "$includes" ]; then
+  echo "No matching patterns found."
+  exit 0
+fi
+include=$(echo "$includes" | awk -v seed="$SEED" 'BEGIN {srand(seed); line=""} {if (rand() <= 1/NR) line=$0} END {print line}')
+includeLine=$(echo "$include" | cut -d: -f1)
+
+# Add #if after the selected line
+sed -i -E "${includeLine} a\\
+#if \!defined\(__clang__\)" "$file"
+
+
+# Add the following lines at the end of the file
+sed -i -E '$a\
+#else\
+\
+int main\(\) \{\
+  printf\(\"skipped\\n\");\
+  return 0;\
+\}\
+\
+#endif' "$file"
