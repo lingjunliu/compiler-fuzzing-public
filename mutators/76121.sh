@@ -10,7 +10,7 @@ file="$1"
 SEED=$2
 
 # Read in the entire if statement
-ifWhole=$(grep -zoE "if \([a-zA-Z_][a-zA-Z0-9_]*\) \{[^}]*__kmpc_fork_call\(.*, .*, .*, .*\);[^}]*\} else \{[^}]*\}" "$file" | \
+ifWhole=$(grep -zoE "if \([a-zA-Z_][a-zA-Z0-9_]*\) \{[^}]*__kmpc_fork_call\(.*, .*, .*, .*\);" "$file" | \
 tr '\0' '\n' | tr -d '\n') 
 
 if [ -z "$ifWhole" ]; then
@@ -24,24 +24,50 @@ ifStatement=$(echo "$ifWhole" | awk -v seed="$SEED" 'BEGIN {srand(seed); line=""
 cond=$(echo "$ifStatement" | grep -oE "if \([a-zA-Z_][a-zA-Z0-9_]*\) \{" | \
 sed -E "s/if \(([a-zA-Z_][a-zA-Z0-9_]*)\) \{/\1/")
 
-# Add if and cond to kmpc_fork_call and delete the next 3 lines
-sed -i -E "/__kmpc_fork_call(\(.*, .*, .*, .*\);)/{
-  s/__kmpc_fork_call(\([a-zA-Z_][a-zA-Z0-9_]*, [0-9]+, [a-zA-Z_][a-zA-Z0-9_]*,) ([a-zA-Z_][a-zA-Z0-9_]*\);)/__kmpc_fork_call_if\1 $cond, \2/
-  p
-  N
-  N
-  N
-  d
-}
-!p
-" "$file"
-
-# Delete the if statement 
-sed -i -E "s/if \($cond\) \{//" "$file"
+# Add cond and args to _kmpc_fork_call_if 
+sed -i -E "s/extern void __kmpc_fork_call\((.*, .*, .*,) \.\.\.\)/\
+extern void __kmpc_fork_call_if\(\1 kmp_int32 $cond, void \*args\)/" "$file"
 
 # Add cond and args to _kmpc_fork_call_if 
-sed -i -E "s/extern void __kmpc_fork_call\((ident_t \*[a-zA-Z_][a-zA-Z0-9_]*, kmp_int32 [a-zA-Z_][a-zA-Z0-9_]*, kmpc_micro [a-zA-Z_][a-zA-Z0-9_]*,) \.\.\.\);/\
-extern void __kmpc_fork_call_if\(\1 kmp_int32 $cond, void \*args\);/" "$file"
+sed -i -E "s/__kmpc_fork_call\((.*, .*, .*,) (.*)\);/\
+__kmpc_fork_call_if\(\1 $cond, \2\);/" "$file"
 
+# Delete the if statement
+if=$(grep -noE "if \($cond\)" "$file")
+start_line=$(echo "$if" | cut -d: -f1)
+current_line=0
+in_block=0
 
+> tmp  # clear output
 
+while IFS= read -r line; do
+  ((current_line++))
+
+  # Start skipping from the if-line
+  if [[ $current_line -eq $start_line ]]; then
+    in_block=1
+    continue
+  fi
+
+  if [[ $in_block -eq 1 ]]; then
+    # Save __kmpc_fork_call line even if inside block
+    if [[ $line =~ __kmpc_fork_call_if\(.*\) ]]; then
+      echo "$line" >> tmp
+      continue
+    fi
+
+    # Stop skipping after first closing brace line
+    if [[ $line =~ ^[[:space:]]*\}[[:space:]]*$ ]]; then
+      in_block=0
+      continue  # DO NOT print this closing brace (ends the if)
+    fi
+
+    continue  # Skip everything else in block
+  fi
+
+  echo "$line" >> tmp
+done < "$file"
+
+echo "}" >> tmp
+
+mv tmp "$file"
