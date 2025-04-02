@@ -30,7 +30,7 @@ structContents=$(echo "$struct" | grep -oE "\{.*\}")
 
 # Delete struct declaration
 awk '
-  /struct[ \t]+[A-Za-z_][A-Za-z0-9_]*[ \t]*\{/ { in_struct = 1 }  
+  /struct [A-Za-z_][A-Za-z0-9_]* \{/ { in_struct = 1 }  
   in_struct && /\};/ { in_struct = 0; next }                    
   !in_struct                                                   
 ' "$file" > tmp && mv tmp "$file"
