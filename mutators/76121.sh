@@ -35,39 +35,44 @@ __kmpc_fork_call_if\(\1 $cond, \2\);/" "$file"
 # Delete the if statement
 if=$(grep -noE "if \($cond\)" "$file")
 start_line=$(echo "$if" | cut -d: -f1)
+echo $start_line
 current_line=0
 in_block=0
 
 > tmp  # clear output
-
+echo >> "$file"
 while IFS= read -r line; do
   ((current_line++))
 
   # Start skipping from the if-line
   if [[ $current_line -eq $start_line ]]; then
     in_block=1
+    echo $current_line
     continue
   fi
 
   if [[ $in_block -eq 1 ]]; then
     # Save __kmpc_fork_call line even if inside block
-    if [[ $line =~ __kmpc_fork_call_if\(.*\) ]]; then
-      echo "$line" >> tmp
-      continue
-    fi
+    # if [[ $line =~ __kmpc_fork_call_if\(.*\) ]]; then
+    #   echo "$line" >> tmp
+    #   continue
+    # fi
 
     # Stop skipping after first closing brace line
-    if [[ $line =~ ^[[:space:]]*\}[[:space:]]*$ ]]; then
+    if [[ $line =~ ^[[:space:]]*\} ]]; then
       in_block=0
+      # If the line contains else, variable = 1 until another curly brace found
       continue  # DO NOT print this closing brace (ends the if)
+    # else
+    #   echo "$line" >> tmp
     fi
 
-    continue  # Skip everything else in block
+    # continue  # Skip everything else in block
   fi
 
   echo "$line" >> tmp
 done < "$file"
 
-echo "}" >> tmp
+# echo "}" >> tmp
 
 mv tmp "$file"
