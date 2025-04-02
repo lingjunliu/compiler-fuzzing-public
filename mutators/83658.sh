@@ -29,13 +29,10 @@ sed -E "s/struct ([a-zA-Z_][a-zA-Z0-9_]*) \{/\1/")
 structContents=$(echo "$struct" | grep -oE "\{.*\}")
 
 # Delete struct declaration
-structFirst=$(grep -noE "struct $structName \{" "$file")
-line=$(echo "$structFirst" | cut -d: -f1)
-line2=$((line + 1))
-line3=$((line2 + 1))
-
-sed -i -E "$line s/struct $structName \{//" "$file"
-sed -i -E "$line2 s/.*//" "$file"
-sed -i -E "$line3 s/\};//" "$file"
+awk '
+  /struct[ \t]+[A-Za-z_][A-Za-z0-9_]*[ \t]*\{/ { in_struct = 1 }  
+  in_struct && /\};/ { in_struct = 0; next }                    
+  !in_struct                                                   
+' "$file" > tmp && mv tmp "$file"
 
 sed -i -E "s/struct $structName([^a-zA-Z0-9_])/struct $structContents\1/" "$file"
