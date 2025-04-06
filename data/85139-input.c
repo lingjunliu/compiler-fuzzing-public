@@ -26,33 +26,27 @@ void TakesVarargs(int i, ...) {
   _BitInt(160) A = __builtin_va_arg(args, _BitInt(160));
 }
 
-_BitInt(129) *f1(_BitInt(129) *p) {
-  return p + 1;
-}
+_BitInt(129) * f1(_BitInt(129) * p) { return p + 1; }
 
-char *f2(char *p) {
-  return p + sizeof(_BitInt(129));
-}
+char *f2(char *p) { return p + sizeof(_BitInt(129)); }
 
-auto BigGlob = (_BitInt(256))-1;
+auto BigGlob = (_BitInt(256)) - 1;
 
 _BitInt(256) foobar() {
   _BitInt(256) A = BigGlob + 1;
   return A;
 }
 
-void f() {
-  static _BitInt(130) p = {10000};
-}
+void f() { static _BitInt(130) p = {10000}; }
 
 struct S3 {
-  _BitInt (136) A : 129;
+  _BitInt(136) A : 129;
 };
 
 void bitField() {
   struct S3 s = {1};
   struct {
-    _BitInt (136) A : 48;
+    _BitInt(136) A : 48;
     int a;
   } s1 = {s.A};
   s1.A = 36;

@@ -1,8 +1,8 @@
 enum EError {
-  
+
   EError_a = 1,
   EError_b = 2,
-  
+
   EError_c = 3,
 };
 

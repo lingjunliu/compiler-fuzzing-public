@@ -1,17 +1,13 @@
-typedef enum EnumA {
-  A
-} EnumA;
+typedef enum EnumA { A } EnumA;
 
 enum EnumB {
   B,
   B1 = 1,
-  
+
   B2 = (int)A == (int)B1
 };
 
-enum {
-  C
-};
+enum { C };
 
 void foo(void) {
   enum EnumA a = A;
@@ -34,10 +30,7 @@ void foo(void) {
 
   (int)a < (int)b;
 
-
-
-  
-  (int)a == (int)C; 
+  (int)a == (int)C;
   (int)A < (int)C;
-  (int)b >= (int)C; 
+  (int)b >= (int)C;
 }
