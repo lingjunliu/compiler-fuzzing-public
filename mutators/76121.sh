@@ -36,43 +36,47 @@ __kmpc_fork_call_if\(\1 $cond, \2\);/" "$file"
 if=$(grep -noE "if \($cond\)" "$file")
 start_line=$(echo "$if" | cut -d: -f1)
 echo $start_line
-current_line=0
-in_block=0
-
-> tmp  # clear output
+# Add newline to prevent missing the final block
 echo >> "$file"
-while IFS= read -r line; do
-  ((current_line++))
 
-  # Start skipping from the if-line
-  if [[ $current_line -eq $start_line ]]; then
-    in_block=1
-    echo $current_line
-    continue
-  fi
+# Code + explanation by chat gpt...
+# Print lines before the if-statement
+# Skip the if (...) { line
+# If we find } else {, end the if block and begin skipping the if-block
+# Match a line that is just a closing brace, skip the line
+# While inside the if block, print the contents
+# After we're out of block, print all remaining lines as normal
+awk -v start="$start_line" '
+NR < start { print; next }
 
-  if [[ $in_block -eq 1 ]]; then
-    # Save __kmpc_fork_call line even if inside block
-    # if [[ $line =~ __kmpc_fork_call_if\(.*\) ]]; then
-    #   echo "$line" >> tmp
-    #   continue
-    # fi
+NR == start {
+    in_if = 1
+    next
+}
 
-    # Stop skipping after first closing brace line
-    if [[ $line =~ ^[[:space:]]*\} ]]; then
-      in_block=0
-      # If the line contains else, variable = 1 until another curly brace found
-      continue  # DO NOT print this closing brace (ends the if)
-    # else
-    #   echo "$line" >> tmp
-    fi
+/\}[ \t]*else[ \t]*\{/ && in_if {
+    in_if = 0
+    in_else = 1
+    next
+}
 
-    # continue  # Skip everything else in block
-  fi
+/^[ \t]*}[ \t]*$/ {
+    if (in_if) {
+        in_if = 0
+        next
+    }
+    if (in_else) {
+        in_else = 0
+        next
+    }
+}
 
-  echo "$line" >> tmp
-done < "$file"
+(in_if && !in_else) {
+    print
+    next
+}
 
-# echo "}" >> tmp
-
-mv tmp "$file"
+(!in_if && !in_else) {
+    print
+}
+' "$file" > "${file}.tmp" && mv "${file}.tmp" "$file"
