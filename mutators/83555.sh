@@ -36,12 +36,11 @@ $nestedFunc" "$file"
 
 
 # Find a #include statement
-includes=$(grep -noE '#include .*' "$file")
-if [ -z "$includes" ]; then
+include=$(grep -noE '#include .*' "$file" | tail -n 1)
+if [ -z "$include" ]; then
   echo "No matching patterns found."
   exit 0
 fi
-include=$(echo "$includes" | awk -v seed="$SEED" 'BEGIN {srand(seed); line=""} {if (rand() <= 1/NR) line=$0} END {print line}')
 includeLine=$(echo "$include" | cut -d: -f1)
 
 # Add #if after the selected line
