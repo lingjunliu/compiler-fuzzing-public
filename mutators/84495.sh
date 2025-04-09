@@ -23,7 +23,7 @@ line=$(echo "$rand_match" | cut -d: -f1)
 paramName=$(echo "$rand_match" | cut -d: -f2)
 
 # Remove the first parameter from the function header
-sed -i -E "${line} s/([a-zA-Z_][a-zA-Z0-9_]* [a-zA-Z_][a-zA-Z0-9_]*\()[a-zA-Z_][a-zA-Z0-9_]* \*[a-zA-Z_][a-zA-Z0-9_]*, /\1/" "$file"
+sed -i -E "${line} s/([a-zA-Z_][a-zA-Z0-9_]* [a-zA-Z_][a-zA-Z0-9_]*\()[a-zA-Z_][a-zA-Z0-9_]* \*[a-zA-Z_][a-zA-Z0-9_]*(,)? /\1/" "$file"
 
-# Remove the parameter from va_start
-sed -i -E "s/(va_start\([a-zA-Z_][a-zA-Z0-9_]*), $paramName\);/\1\);/" "$file"
+# Remove parameter reference, keep the last comma if there is one
+sed -i -E "s/(,)?\s*$paramName(,)?/\2/g" "$file"
